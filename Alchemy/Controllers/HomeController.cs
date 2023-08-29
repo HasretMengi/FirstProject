@@ -7,10 +7,13 @@ namespace Alchemy.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-
+    
+    // Constructeur 
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
+        // On passe en argument les dependences pour faciliter les text, comme dans le triangle de serpiesnk on passe random en arg pour que les methodes puissent utiliser les dependances utilise en arg
+        
     }
 
     public IActionResult Index()

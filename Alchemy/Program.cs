@@ -23,5 +23,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+    // les pattern seront toujours la meme, on call un controlleur -- on utilise l'action -- on passe pt des parametre 
 
 app.Run();
