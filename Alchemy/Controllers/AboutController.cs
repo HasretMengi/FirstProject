@@ -20,10 +20,18 @@ public class AboutController : Controller
     {
         return "Page about";
     }
-    //Si je veux marquer /about/me, il y aura rien donc je doit creer une methode public me 
-    public string Me()
+    //Si je veux marquer /about/me, il y aura rien donc je doit creer une methode public me aka une autre action Me()
+   public string Me(string name = "no name")
     {
-        return "this is /about/me";
+        name = "Rabia";
+        return "this is /about/me & this is my name: " + name;
+    }
+
+  
+     public IActionResult ShowNameView(string nom = "no name")
+    {
+        ViewData["nom"] = "Rabia";
+        return View();
     }
 
 

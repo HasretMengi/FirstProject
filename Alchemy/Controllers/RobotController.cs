@@ -1,15 +1,15 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Alchemy.Models;
 
 namespace Alchemy.Controllers;
 
-public class HomeController : Controller
+public class RobotController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly ILogger<RobotController> _logger;
 
     // Constructeur 
-    public HomeController(ILogger<HomeController> logger)
+    public RobotController(ILogger<RobotController> logger)
     {
         _logger = logger;
         // On passe en argument les dependences pour faciliter les text, comme dans le triangle de serpiesnk on passe random en arg pour que les methodes puissent utiliser les dependances utilise en arg
@@ -17,16 +17,26 @@ public class HomeController : Controller
     }
 
     //Ici on relie la View au Controlleur, il va chercher qqch qui sapelle Index.cshtml
-    public IActionResult Index()
+    public IActionResult Bob()
+    {
+
+        return View();
+    }
+    public IActionResult Alice()
+    {
+
+        return View();
+    }
+    public IActionResult Andre()
     {
 
         return View();
     }
 
-    public IActionResult Privacy()
+    /*public IActionResult Privacy()
     {
         return View();
-    }
+    }*/
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

@@ -20,6 +20,8 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+//C'est ici qu'on defini les action et controlleur de base, on ny touche pas bcp 
+//Exemple concret de named argument 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
