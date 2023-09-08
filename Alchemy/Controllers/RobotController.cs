@@ -1,46 +1,112 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Alchemy.Models;
-
-namespace Alchemy.Controllers;
-
-public class RobotController : Controller
+namespace Alchemy.Controllers
 {
-    private readonly ILogger<RobotController> _logger;
-
-    // Constructeur 
-    public RobotController(ILogger<RobotController> logger)
+    public class AddRobotRequest
     {
-        _logger = logger;
-        // On passe en argument les dependences pour faciliter les text, comme dans le triangle de serpiesnk on passe random en arg pour que les methodes puissent utiliser les dependances utilise en arg
+        public string Nom { get; set; }
+        public string Taille { get; set; }
+        public string Poids { get; set; }
+        public string Pays { get; set; }
+    }
+
+
+    public class RobotController : Controller
+    {
+        private readonly ILogger<RobotController> _logger;
+
+        public RobotController(ILogger<RobotController> logger)
+        {
+            _logger = logger;
+        }
+
+
+        public IActionResult WantedRobotList()
+        {
+            var robots = RobotData.Robots;
+            return View(robots);
+        }
+
+        public ActionResult RobotDetails(int id)
+        {
+            // Recherchez le robot par son nom dans la liste
+            var robot = RobotData.GetRobotById(id);
+            if (robot == null)
+            {
+                return NotFound();
+            }
+            return View(robot);
+        }
+
+        public IActionResult AddRobot()
+        {
+            return View();
+        }
+
+
+
+        [HttpPost]
+        [ActionName("ajout-robot")]
+        public IActionResult AjoutRobot(AddRobotRequest req)
+        {
+            // Trouvez la valeur de l'ID la plus élevée actuellement utilisée
+            int maxId = RobotData.Robots.Max(r => r.Id);
+
+            // Incrémentez l'ID pour le nouveau robot
+            int newId = maxId + 1;
+
+            // Créez un nouveau robot avec le nouvel ID
+            var newRobot = new Robot
+            {
+                Id = newId,
+                Nom = req.Nom,
+                Taille = req.Taille,
+                Poids = req.Poids,
+                Pays = req.Pays
+            };
+
+            // Ajoutez le nouveau robot à la liste existante
+            RobotData.AddRobot(newRobot);
+
+            // Redirigez directement vers la page "WantedRobotList"
+            return RedirectToAction("WantedRobotList");
+        }
+
+        public IActionResult UpdateRobotPays()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult UpdateRobotPays(int idRobot, string nouveauPays)
+        {
+            // Appelez la méthode de mise à jour dans RobotData avec l'ID
+            RobotData.UpdateRobotPays(idRobot, nouveauPays);
+
+            // Redirigez l'utilisateur vers la page de détails du robot mis à jour
+            return RedirectToAction("RobotDetails", new { id = idRobot });
+        }
+
+        public IActionResult DeleteRobot()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult DeleteRobot(int idRobot)
+        {
+            // Appelez la méthode de mise à jour dans RobotData avec l'ID
+            RobotData.DeleteRobot(idRobot);
+
+            // Redirigez l'utilisateur vers la page de détails du robot mis à jour
+            return RedirectToAction("WantedRobotList");
+        }
+
+
 
     }
 
-    //Ici on relie la View au Controlleur, il va chercher qqch qui sapelle Index.cshtml
-    public IActionResult Bob()
-    {
-
-        return View();
-    }
-    public IActionResult Alice()
-    {
-
-        return View();
-    }
-    public IActionResult Andre()
-    {
-
-        return View();
-    }
-
-    /*public IActionResult Privacy()
-    {
-        return View();
-    }*/
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
 }
