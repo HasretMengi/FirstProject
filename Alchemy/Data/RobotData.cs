@@ -2,9 +2,10 @@ using System.Collections.Generic;
 
 namespace Alchemy.Models
 {
-    public static class RobotData
+    public class RobotData : IRobotData
     {
-        public static List<Robot> Robots { get; } = new List<Robot>
+        private int _nextId = 4;
+        public List<Robot> Robots { get; } = new List<Robot>
         {
             new Robot
                 {
@@ -35,19 +36,26 @@ namespace Alchemy.Models
                 }
         };
 
-        public static void AddRobot(Robot newRobot)
+        public void AddRobot(Robot newRobot)
         {
+            newRobot.Id = _nextId;
             Robots.Add(newRobot);
+            _nextId++;
         }
 
-        public static Robot GetRobotById(int idRobot)
+        public Robot GetRobotById(int idRobot)
         {
-            // Recherchez le robot par son nom dans la liste
+            // Recherchez le robot par son ID dans la liste
             var robot = Robots.FirstOrDefault(r => r.Id == idRobot);
             return robot;
         }
+        public Robot GetRobotByName(string nomRobot)
+        {
+             var robot = Robots.FirstOrDefault(r => r.Nom == nomRobot);
+            return robot;
+        }
 
-        public static void UpdateRobotPays(int idRobot, string nouveauPays)
+        public void UpdateRobotPays(int idRobot, string nouveauPays)
         {
             // Recherchez le robot par son ID dans la liste
             var robot = Robots.FirstOrDefault(r => r.Id == idRobot);
@@ -57,7 +65,7 @@ namespace Alchemy.Models
             }
         }
 
-        public static void DeleteRobot(int idRobot)
+        public void DeleteRobot(int idRobot)
         {
             // Recherchez le robot par son ID dans la liste
             var robot = Robots.FirstOrDefault(r => r.Id == idRobot);
@@ -67,14 +75,6 @@ namespace Alchemy.Models
                 // Supprimez le robot de la liste
                 Robots.Remove(robot);
 
-                // Triez la liste des robots par ID
-                Robots.Sort((r1, r2) => r1.Id.CompareTo(r2.Id));
-
-                // Mettez à jour les ID de chaque robot en fonction de leur position
-                for (int i = 0; i < Robots.Count; i++)
-                {
-                    Robots[i].Id = i + 1;
-                }
             }
         }
 

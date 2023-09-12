@@ -14,24 +14,26 @@ namespace Alchemy.Controllers
 
     public class RobotController : Controller
     {
-        private readonly ILogger<RobotController> _logger;
+        private readonly ILogger<RobotController> _logger; 
+         private readonly IRobotData robotData;//
 
-        public RobotController(ILogger<RobotController> logger)
+        public RobotController(ILogger<RobotController> logger, IRobotData robotData)
         {
             _logger = logger;
+             this.robotData = robotData; //
         }
 
 
         public IActionResult WantedRobotList()
         {
-            var robots = RobotData.Robots;
+            var robots = robotData.Robots;
             return View(robots);
         }
 
         public ActionResult RobotDetails(int id)
         {
             // Recherchez le robot par son nom dans la liste
-            var robot = RobotData.GetRobotById(id);
+            var robot = robotData.GetRobotById(id);
             if (robot == null)
             {
                 return NotFound();
@@ -51,7 +53,7 @@ namespace Alchemy.Controllers
         public IActionResult AjoutRobot(AddRobotRequest req)
         {
             // Trouvez la valeur de l'ID la plus élevée actuellement utilisée
-            int maxId = RobotData.Robots.Max(r => r.Id);
+            int maxId = robotData.Robots.Max(r => r.Id);
 
             // Incrémentez l'ID pour le nouveau robot
             int newId = maxId + 1;
@@ -67,7 +69,7 @@ namespace Alchemy.Controllers
             };
 
             // Ajoutez le nouveau robot à la liste existante
-            RobotData.AddRobot(newRobot);
+            robotData.AddRobot(newRobot);
 
             // Redirigez directement vers la page "WantedRobotList"
             return RedirectToAction("WantedRobotList");
@@ -83,7 +85,7 @@ namespace Alchemy.Controllers
         public IActionResult UpdateRobotPays(int idRobot, string nouveauPays)
         {
             // Appelez la méthode de mise à jour dans RobotData avec l'ID
-            RobotData.UpdateRobotPays(idRobot, nouveauPays);
+            robotData.UpdateRobotPays(idRobot, nouveauPays);
 
             // Redirigez l'utilisateur vers la page de détails du robot mis à jour
             return RedirectToAction("RobotDetails", new { id = idRobot });
@@ -99,13 +101,13 @@ namespace Alchemy.Controllers
         public IActionResult DeleteRobot(int idRobot)
         {
             // Appelez la méthode de mise à jour dans RobotData avec l'ID
-            RobotData.DeleteRobot(idRobot);
+            robotData.DeleteRobot(idRobot);
 
             // Redirigez l'utilisateur vers la page de détails du robot mis à jour
             return RedirectToAction("WantedRobotList");
         }
 
-
+    
 
     }
 
