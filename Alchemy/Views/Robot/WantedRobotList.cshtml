@@ -9,7 +9,7 @@
     }
 
     .card {
-        width: calc(33.33% - 10px);
+        width: calc(25% - 10px);
         /* Pour trois cartes par rangée avec un espace */
         margin-bottom: 20px;
         border: 1px solid #ccc;
@@ -21,19 +21,41 @@
         font-weight: bolder;
         text-decoration: underline;
     }
+
+    #top-wanted{
+       text-align: center;
+    }
+    #top-wanted img {
+        width: 400px; 
+    }
+    .btn-primary {
+        margin:2%;
+        background-color: rgb(245, 150, 33);
+        border: white;
+    }
+     .btn-primary:hover {
+        background-color: rgb(108, 67, 17);
+    }
+    
+
+   
 </style>
 
+<div id="top-wanted"><img src="https://images.vexels.com/media/users/3/249226/isolated/preview/e8f10cd25d283dcb3f19d5ec98369036-wanted-dead-or-alive-label.png"></div>
+
+
 <div class="card-container">
+    
     @foreach (var robot in Model)
     {
         <div class="card text-center mx-auto">
             <img class="card-img-top" src="https://robohash.org/@robot.Nom" alt="Card image cap">
             <div class="card-body">
-                <h5 class="card-title">WANTED</h5>
+                <img class = "card-img" src="https://clipart-library.com/images/yckrderqi.png">
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><strong>ID :</strong> @robot.Id</li>
-                <li class="list-group-item"><strong>Nom :</strong> @robot.Nom</li>
+                <li class="list-group-item"><strong></strong> @robot.Nom</li>
                 <a href="@Url.Action("RobotDetails", "Robot", new { id = robot.Id })" class="btn btn-primary">Détails</a>
             </ul>
         </div>
