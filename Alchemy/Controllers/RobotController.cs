@@ -5,10 +5,10 @@ namespace Alchemy.Controllers
 {
     public class AddRobotRequest
     {
-        public string Nom { get; set; }
-        public string Taille { get; set; }
-        public string Poids { get; set; }
-        public string Pays { get; set; }
+        public string? Nom { get; set; }
+        public int Taille { get; set; }
+        public int Poids { get; set; }
+        public string? Pays { get; set; }
     }
 
 

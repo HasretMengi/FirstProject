@@ -12,8 +12,8 @@ namespace Alchemy.Models
                     Id = 1,
                     UrlImage = "https://robohash.org/Alice",
                     Nom = "Alice",
-                    Taille = "7.90 m",
-                    Poids = "5000 kg",
+                    Taille = 5000,
+                    Poids = 8000,
                     Pays = "Palestine"
                 },
                 new Robot
@@ -21,8 +21,8 @@ namespace Alchemy.Models
                     Id = 2,
                     UrlImage = "https://robohash.org/Andre",
                     Nom = "Andre",
-                    Taille = "10.90 m",
-                    Poids = "9000 kg",
+                    Taille = 104,
+                    Poids = 8001,
                     Pays = "Turquie"
                 },
                 new Robot
@@ -30,8 +30,8 @@ namespace Alchemy.Models
                     Id = 3,
                     UrlImage = "https://robohash.org/Bob",
                     Nom = "Bob",
-                    Taille = "5.90 m",
-                    Poids = "4000 kg",
+                    Taille = 59,
+                    Poids = 2500,
                     Pays = "Brésil"
                 }
         };
