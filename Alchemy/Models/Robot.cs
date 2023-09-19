@@ -12,6 +12,7 @@ namespace Alchemy.Models
 
         // Propriété statique pour suivre le prochain ID
         public static int NextId { get; private set; } = 4;
+        public List<string> HistoriquePays {get;set;}
 
        
     }

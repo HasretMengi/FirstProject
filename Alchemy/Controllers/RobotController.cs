@@ -14,13 +14,13 @@ namespace Alchemy.Controllers
 
     public class RobotController : Controller
     {
-        private readonly ILogger<RobotController> _logger; 
-         private readonly IRobotData robotData;//
+        private readonly ILogger<RobotController> _logger;
+        private readonly IRobotData robotData;//
 
         public RobotController(ILogger<RobotController> logger, IRobotData robotData)
         {
             _logger = logger;
-             this.robotData = robotData; //
+            this.robotData = robotData;
         }
 
 
@@ -68,6 +68,13 @@ namespace Alchemy.Controllers
                 Pays = req.Pays
             };
 
+            // Ajoutez le pays initial à l'historique des pays du nouveau robot
+            if (newRobot.HistoriquePays == null)
+            {
+                newRobot.HistoriquePays = new List<string>();
+            }
+            newRobot.HistoriquePays.Add(req.Pays); // Ajoutez le pays initial
+
             // Ajoutez le nouveau robot à la liste existante
             robotData.AddRobot(newRobot);
 
@@ -84,10 +91,25 @@ namespace Alchemy.Controllers
         [HttpPost]
         public IActionResult UpdateRobotPays(int idRobot, string nouveauPays)
         {
+
             // Appelez la méthode de mise à jour dans RobotData avec l'ID
             robotData.UpdateRobotPays(idRobot, nouveauPays);
 
-            // Redirigez l'utilisateur vers la page de détails du robot mis à jour
+            //Historique Pays 
+            var robot = robotData.GetRobotById(idRobot);
+            var ancienPays = robot.Pays;
+            if (robot.HistoriquePays == null)
+            {
+                robot.HistoriquePays = new List<string>();
+            }
+
+
+            // Mettez à jour le pays actuel
+            robot.Pays = nouveauPays;
+            //Ajouter le pays a lhistorique
+            robot.HistoriquePays.Add(ancienPays);
+
+            // Redirigez vers la page de détails du robot mis à jour
             return RedirectToAction("RobotDetails", new { id = idRobot });
         }
 
@@ -106,8 +128,6 @@ namespace Alchemy.Controllers
             // Redirigez l'utilisateur vers la page de détails du robot mis à jour
             return RedirectToAction("WantedRobotList");
         }
-
-    
 
     }
 
